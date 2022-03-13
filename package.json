@@ -4,7 +4,7 @@
   "description": "This repository contains the source code for an API able to grab the Colombian DTF rates and transform them for a proper analysis.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
