@@ -3,8 +3,10 @@
   "version": "1.0.1",
   "description": "This repository contains the source code for an API able to grab the Colombian DTF rates and transform them for a proper analysis.",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "linter": "eslint .",
+    "linter-fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -21,5 +23,12 @@
     "express-graphql": "^0.12.0",
     "graphql": "^15.3.0",
     "merge-graphql-schemas": "^1.7.8"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0"
   }
 }
