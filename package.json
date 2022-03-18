@@ -8,6 +8,13 @@
     "linter": "eslint .",
     "linter-fix": "eslint . --fix"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run linter",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EngHans/dtf-api.git"
@@ -25,10 +32,19 @@
     "merge-graphql-schemas": "^1.7.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.2.0"
+    "eslint-plugin-promise": "^5.2.0",
+    "husky": "^4.3.8"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
