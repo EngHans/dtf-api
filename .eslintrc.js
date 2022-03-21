@@ -11,6 +11,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   plugins: ['jest'],
+  ignorePatterns: ['release.config.js'],
   rules: {
   }
 }
