@@ -1,5 +1,10 @@
-const path = require('path')
-const { mergeResolvers, fileLoader } = require('merge-graphql-schemas')
+const { mergeResolvers } = require('merge-graphql-schemas')
+const tutorial = require('./tutorial')
+const dtfData = require('./dtfData')
 
-const resolversArray = fileLoader(path.join(__dirname, './*.js'))
-module.exports = mergeResolvers(resolversArray)
+const resolverArray = [
+  tutorial,
+  dtfData
+]
+
+module.exports = mergeResolvers(resolverArray)

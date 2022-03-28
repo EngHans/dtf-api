@@ -1,0 +1,13 @@
+type DTFLog {
+  codificacion: String
+  tipoentidad: String
+  codigoentidad: String
+  nombreentidad: String
+  fechacorte: String
+  uca: String
+  nombre_unidad_de_captura: String
+  subcuenta: String
+  descripcion: String
+  tasa: String
+  monto: String
+}

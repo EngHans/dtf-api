@@ -1,5 +1,4 @@
-const path = require('path')
 const { mergeTypes, fileLoader } = require('merge-graphql-schemas')
 
-const typesArray = fileLoader(path.join(__dirname, './*.graphql'), { extensions: ['graphql'] })
+const typesArray = fileLoader(__dirname, { extensions: ['graphql'], recursive: true })
 module.exports = mergeTypes(typesArray)
