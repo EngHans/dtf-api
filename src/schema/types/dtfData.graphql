@@ -11,3 +11,8 @@ type DTFLog {
   tasa: String
   monto: String
 }
+
+input orderObject {
+  column: String!
+  direction: String
+}

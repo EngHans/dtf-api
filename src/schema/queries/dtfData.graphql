@@ -1,3 +1,7 @@
 type Query {
-  getDataFromAPI (limit: Int): [DTFLog]
+  getDataFromAPI (
+      limit: Int
+      order: orderObject
+    )
+  : [DTFLog]
 }
