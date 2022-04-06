@@ -1,4 +1,4 @@
-const tutorial = require('../resolvers/tutorial.js')
+const tutorial = require('../src/resolvers/tutorial.js')
 
 describe('Testing the quoteOfTheDay endpoint', () => {
   beforeAll(() => {
