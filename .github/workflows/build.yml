@@ -6,7 +6,7 @@ on:
       types: [opened, synchronize, reopened]
 name: Main Workflow
 jobs:
-  workflow:
+  sonarcloud:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
