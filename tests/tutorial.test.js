@@ -1,6 +1,6 @@
 const tutorial = require('../src/resolvers/tutorial.js')
 
-describe('Testing the quoteOfTheDay endpoint', () => {
+describe('Testing the quoteOfTheDay query', () => {
   beforeAll(() => {
     jest.spyOn(global.Math, 'random')
       .mockReturnValueOnce(0.1)
