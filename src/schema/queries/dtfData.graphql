@@ -2,6 +2,7 @@ type Query {
   getDataFromAPI (
       limit: Int
       order: orderObject
+      pagination: paginationObject
     )
-  : [DTFLog]
+  : DataResponse
 }

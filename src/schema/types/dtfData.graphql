@@ -12,7 +12,24 @@ type DTFLog {
   monto: String
 }
 
+type DataResponse {
+  data: [DTFLog]
+  pagination: PaginationResponse
+  notLimitedCount: Int 
+}
+
+type PaginationResponse {
+  pageSize: Int
+  currentPage: Int
+  pages: Int
+}
+
 input orderObject {
   column: String!
   direction: String
+}
+
+input paginationObject {
+  pageSize: Int!
+  page: Int!
 }
