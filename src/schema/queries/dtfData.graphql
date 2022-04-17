@@ -1,6 +1,10 @@
 type Query {
   getDataFromAPI (
-      limit: Int
+      order: orderObject
+      pagination: paginationObject
+    )
+  : DataResponse
+  getLastDateFromAPI (
       order: orderObject
       pagination: paginationObject
     )

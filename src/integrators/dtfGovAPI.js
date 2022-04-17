@@ -6,7 +6,7 @@ const datasetId = 'axk9-g2nh'
 
 const consumer = new soda.Consumer(datasetUrl)
 
-async function getAllData (pagination, order = { column: 'fechacorte', direction: 'DESC' }) {
+async function getAllData ({ pagination, where, order = { column: 'fechacorte', direction: 'DESC' } }) {
   if (!pagination) {
     pagination = {
       pageSize: 5
@@ -14,6 +14,9 @@ async function getAllData (pagination, order = { column: 'fechacorte', direction
   }
   const query = consumer.query()
     .withDataset(datasetId)
+  if (where) {
+    query.where(where)
+  }
   const notLimitedCount = (await getQueryCount(query))[0].count
 
   query.limit(pagination.pageSize)
@@ -53,6 +56,12 @@ function getQueryResult (query) {
   })
 }
 
+async function getLatestData ({ pagination, order = { column: 'fechacorte', direction: 'DESC' } }) {
+  const latestDate = (await getAllData({ pageSize: 1 })).data[0].fechacorte
+  return getAllData({ pagination, order, where: soda.expr.gte('fechacorte', latestDate) })
+}
+
 module.exports = {
-  getAllData
+  getAllData,
+  getLatestData
 }

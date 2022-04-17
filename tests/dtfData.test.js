@@ -2,6 +2,7 @@ const { Consumer, _internal } = require('soda-js')
 const dtfAPI = require('../src/resolvers/dtfData')
 const Chance = require('chance')
 const chance = new Chance()
+const soda = require('soda-js')
 
 jest.mock('soda-js')
 
@@ -27,6 +28,10 @@ const mockQueryOrder = jest
 
 const mockQuerySelect = jest
   .spyOn(_internal.Query.prototype, 'select')
+  .mockReturnThis()
+
+const mockQueryWhere = jest
+  .spyOn(_internal.Query.prototype, 'where')
   .mockReturnThis()
 
 const mockGetRowsOn = jest.fn().mockImplementation(
@@ -106,6 +111,77 @@ describe('Testing the getDataFromAPI query', () => {
     const variables = { pagination, order }
     await dtfAPI.getDataFromAPI(variables)
     expect(mockConsumerQuery).toHaveBeenCalledTimes(1)
+    expect(mockQueryWithDataset).toHaveBeenCalledWith('axk9-g2nh')
+    expect(mockQueryLimit).toHaveBeenCalledWith(pagination.pageSize)
+    expect(mockQueryOrder).toHaveBeenCalledWith(`${order.column} ${order.direction}`)
+    expect(mockQueryOffset).toHaveBeenCalledWith((pagination.page - 1) * pagination.pageSize)
+  })
+})
+
+describe('Testing the getLastDateFromAPI query', () => {
+  beforeEach(() => {
+    Consumer.mockClear()
+    _internal.Connection.mockClear()
+    mockConsumerQuery.mockClear()
+    mockQueryWithDataset.mockClear()
+    mockQueryLimit.mockClear()
+    mockQueryOrder.mockClear()
+    mockQueryGetRows.mockClear()
+    mockQuerySelect.mockClear()
+    mockGetRowsOn.mockClear()
+    mockQueryOffset.mockClear()
+    mockQueryWhere.mockClear()
+    mockGetRowsOn.mockImplementation((status, emit) => {
+      emit([0])
+    })
+    jest.spyOn(soda.expr, 'gte')
+      .mockReturnValue({})
+  })
+
+  const defaultOrder = { column: 'fechacorte', direction: 'DESC' }
+  const randomOrder = () => ({ column: chance.string(), direction: chance.string() })
+  const randomPagination = () => ({ pageSize: chance.integer(), page: chance.integer() })
+
+  it('Should call the government API with the default parameters', async () => {
+    const variables = {}
+    await dtfAPI.getLastDateFromAPI(variables)
+    expect(mockConsumerQuery).toHaveBeenCalledTimes(2)
+    expect(mockQueryWithDataset).toHaveBeenCalledWith('axk9-g2nh')
+    expect(mockQueryLimit).toHaveBeenCalledWith(5)
+    expect(mockQueryOrder).toHaveBeenCalledWith(`${defaultOrder.column} ${defaultOrder.direction}`)
+    expect(mockQuerySelect).toHaveBeenCalledTimes(2)
+    expect(mockQueryOffset).not.toHaveBeenCalled()
+    expect(mockQueryWhere).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should call the government API with custom limit, default order should remain', async () => {
+    const pagination = randomPagination()
+    const variables = { pagination }
+    await dtfAPI.getLastDateFromAPI(variables)
+    expect(mockConsumerQuery).toHaveBeenCalledTimes(2)
+    expect(mockQueryWithDataset).toHaveBeenCalledWith('axk9-g2nh')
+    expect(mockQueryLimit).toHaveBeenCalledWith(pagination.pageSize)
+    expect(mockQueryOrder).toHaveBeenCalledWith(`${defaultOrder.column} ${defaultOrder.direction}`)
+    expect(mockQueryOffset).toHaveBeenCalledWith((pagination.page - 1) * pagination.pageSize)
+  })
+
+  it('Should call the government API with custom order, default limit should remain', async () => {
+    const order = randomOrder()
+    const variables = { order }
+    await dtfAPI.getLastDateFromAPI(variables)
+    expect(mockConsumerQuery).toHaveBeenCalledTimes(2)
+    expect(mockQueryWithDataset).toHaveBeenCalledWith('axk9-g2nh')
+    expect(mockQueryLimit).toHaveBeenCalledWith(5)
+    expect(mockQueryOrder).toHaveBeenCalledWith(`${order.column} ${order.direction}`)
+    expect(mockQueryOffset).not.toHaveBeenCalled()
+  })
+
+  it('Should call the government API with custom limit and order', async () => {
+    const pagination = randomPagination()
+    const order = randomOrder()
+    const variables = { pagination, order }
+    await dtfAPI.getLastDateFromAPI(variables)
+    expect(mockConsumerQuery).toHaveBeenCalledTimes(2)
     expect(mockQueryWithDataset).toHaveBeenCalledWith('axk9-g2nh')
     expect(mockQueryLimit).toHaveBeenCalledWith(pagination.pageSize)
     expect(mockQueryOrder).toHaveBeenCalledWith(`${order.column} ${order.direction}`)
